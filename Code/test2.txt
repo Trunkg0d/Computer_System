@@ -1,0 +1,67 @@
+M: 00000101
+Before shift left: 00000000 00000011
+M in two complements: 11111011
+After shift left: 00000000 00000110
+A after shift left: 00000000
+Subtract result: 11111011
+New a: 00000000
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000000 00000110
+M in two complements: 11111011
+After shift left: 00000000 00001100
+A after shift left: 00000000
+Subtract result: 11111011
+New a: 00000000
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000000 00001100
+M in two complements: 11111011
+After shift left: 00000000 00011000
+A after shift left: 00000000
+Subtract result: 11111011
+New a: 00000000
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000000 00011000
+M in two complements: 11111011
+After shift left: 00000000 00110000
+A after shift left: 00000000
+Subtract result: 11111011
+New a: 00000000
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000000 00110000
+M in two complements: 11111011
+After shift left: 00000000 01100000
+A after shift left: 00000000
+Subtract result: 11111011
+New a: 00000000
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000000 01100000
+M in two complements: 11111011
+After shift left: 00000000 11000000
+A after shift left: 00000000
+Subtract result: 11111011
+New a: 00000000
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000000 11000000
+M in two complements: 11111011
+After shift left: 00000001 10000000
+A after shift left: 00000001
+Subtract result: 11111100
+New a: 00000001
+----------------------------------------------------------------
+M: 00000101
+Before shift left: 00000001 10000000
+M in two complements: 11111011
+After shift left: 00000011 00000000
+A after shift left: 00000011
+Subtract result: 11111110
+New a: 00000011
+----------------------------------------------------------------
+Result of 00000011 / 00000101 (3 / 5): 
+Quotient (Thuong so): 00000000 (0)
+Remainder (So du:) 00000011 (3)

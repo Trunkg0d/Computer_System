@@ -75,7 +75,7 @@ string Dec_to_Hex(int n){  // He 10 -> He 16
   return result;
 }
 
-string Hex_to_Bin(string s){  // He 16 -> He 10
+string Hex_to_Dec(string s){  // He 16 -> He 10
   int result = 0;
   int p = 0;
   for(int i = s.length() - 1; i >= 0; i--){
@@ -107,10 +107,11 @@ string Bin_to_Hex(int n){  // He 2 -> He 16
 }
 
 int main(){
+  // Bai 1
   cout << Dec_to_Bin(77) << endl;
   cout << Bin_to_Dec(1001101) << endl;
   cout << Dec_to_Hex(166) << endl;
-  cout << Hex_to_Bin("A6") << endl;
+  cout << Hex_to_Dec("A6") << endl;
   cout << Bin_to_Hex(10100110) << endl;
   return 0;
 }

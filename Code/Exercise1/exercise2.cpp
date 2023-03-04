@@ -240,7 +240,15 @@ void add(string num1, string num2){
       }
     }
   }
-  cout << "Result of add " << num1 << " (" << n1 << ")" << " and " << num2 << " (" << n2 << ") is " << result << " (" << Binary_str_to_Dec(result) << ")" << endl;
+  int overflow = 0;
+  if(s1[0] == '1' && s2[0] == '1' && result[0] == '0') overflow = 1;
+  if(s1[0] == '0' && s2[0] == '0' && result[0] == '1') overflow = 1;
+  if(overflow == 0){
+    cout << "Result of add " << num1 << " (" << n1 << ")" << " and " << num2 << " (" << n2 << ") is " << result << " (" << Binary_str_to_Dec(result) << ")" << endl;
+  } else {
+    cout << "Result of " << num1 << " + " << num2 << " (" << n1 << " + " << n2 << ") " << endl;
+    cout << "OVERFLOW OVERFLOW" << endl;
+  }
 }
 
 void subtract(string num1, string num2){
@@ -279,7 +287,16 @@ void subtract(string num1, string num2){
       }
     }
   }
-  cout << "Result of " << num1 << " - " << num2 << " is " << result << " (" << n1 << " - " << -n2 << " = " << Binary_str_to_Dec(result) << " )" << endl;
+
+  int overflow = 0;
+  if(s1[0] == '1' && s2[0] == '1' && result[0] == '0') overflow = 1;
+  if(s1[0] == '0' && s2[0] == '0' && result[0] == '1') overflow = 1;
+  if(overflow == 0){
+    cout << "Result of " << num1 << " - " << num2 << " is " << result << " (" << n1 << " - " << -n2 << " = " << Binary_str_to_Dec(result) << " )" << endl;
+  } else {
+    cout << "Result of " << num1 << " - " << num2 << " (" << n1 << " - " << -n2 << ") " << endl;
+    cout << "OVERFLOW OVERFLOW" << endl;
+  }
 }
 
 void multiply(string str1, string str2){
@@ -533,21 +550,20 @@ int main(){
     cout << "----------------------------------------------------------------" << endl;
   }
 
-  // divide(7, 3);
-  // divide(7, -3);
-
   // add("11111001", "00000101");  // -7 + 5
   // add("11111100", "00000100"); // -4 + 4
   // add("00000011", "00000100"); // 3 + 4
   // add("11111100", "11111111"); // -4 + (-1)
   // add("00000101", "00000100"); // 5 + 4
   // add("11111001", "11111010"); // -7 + (-6)
+  // add("01111111", "01111111"); // 127 + 127 OVERFLOW OVERFLOW
 
   // subtract("00000010", "00000111");  // 2 - 7
   // subtract("00000101", "00000010");  // 5 - 2
   // subtract("00000101", "11111110");  // 5 - (-2)
   // subtract("11111010", "11111100"); // -6 - (-4)
   // subtract("11111010", "00000100"); // -6 - 4
+  // subtract("01111111", "10000001"); // 127 - (-127) OVERFLOW OVERFLOW
 
   // multiply("00000101", "00000110"); // 5*6
   // multiply("00000111", "11111101"); // 7*(-3)
