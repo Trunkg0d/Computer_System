@@ -3,7 +3,28 @@
 #include <math.h>
 using namespace std;
 
+int Abs(int n){
+  if(n < 0){
+    return -n;
+  }
+  return n;
+}
+
+void convert_to_eight(string& num){
+// Check if the byte is full of 5 bits or not
+  int re = 0;
+  if(num.length() % 8 != 0){
+    re = Abs(num.length() - 8);
+  }
+
+  while(re > 0){
+    num = '0' + num;
+    re--;
+  }
+}
+
 string Dec_to_Bin(int n){  // He 10 -> He 2
+  if(n == 0) return "0000";
   string tmp = "";
   string result = "";
   
@@ -101,17 +122,44 @@ string Hex_to_Dec(string s){  // He 16 -> He 10
 }
 
 string Bin_to_Hex(int n){  // He 2 -> He 16
+  string bin_str = to_string(n);
+  convert_to_eight(bin_str);
   string tmp = Bin_to_Dec(n);
   string result = Dec_to_Hex(stoi(tmp));
   return result;
 }
 
 int main(){
-  // Bai 1
-  cout << Dec_to_Bin(77) << endl;
-  cout << Bin_to_Dec(1001101) << endl;
-  cout << Dec_to_Hex(166) << endl;
-  cout << Hex_to_Dec("A6") << endl;
-  cout << Bin_to_Hex(10100110) << endl;
+  // Test case for Dec_to_Bin
+  // cout << Dec_to_Bin(77) << endl;
+  // cout << Dec_to_Bin(12) << endl;
+  // cout << Dec_to_Bin(122) << endl;
+  // cout << Dec_to_Bin(0) << endl;
+
+  // Test case for Dec_to_Hex
+  // cout << Dec_to_Hex(166) << endl;
+  // cout << Dec_to_Hex(122) << endl;
+  // cout << Dec_to_Hex(222) << endl;
+  // cout << Dec_to_Hex(57) << endl;
+
+  // Test case for Bin_to_Dec
+  // cout << Bin_to_Dec(1001101) << endl;
+  // cout << Bin_to_Dec(1100) << endl;
+  // cout << Bin_to_Dec(1111010) << endl;
+  // cout << Bin_to_Dec(0) << endl;
+  // cout << Bin_to_Dec(11111111) << endl;
+
+  // Test case for Hex_to_Dec
+  // cout << Hex_to_Dec("A6") << endl;
+  // cout << Hex_to_Dec("BB") << endl;
+  // cout << Hex_to_Dec("157") << endl;
+  // cout << Hex_to_Dec("153") << endl;
+  // cout << Hex_to_Dec("9F") << endl;
+
+  // Test case for Bin_to_Hex
+  // cout << Bin_to_Hex(10100110) << endl;
+  // cout << Bin_to_Hex(1) << endl;
+  // cout << Bin_to_Hex(111111) << endl;
+  // cout << Bin_to_Hex(110001) << endl;
   return 0;
 }

@@ -388,7 +388,16 @@ void multiply(string str1, string str2){
   if(flag == 1){
     Two_Comp_16_Bits(result);
   }
-  cout << "Result of multiply " << str1 << "(" << num1 << ") and " << str2 << " (" << num2 << ") is: " << result  << " (" << Binary_str_to_Dec(result) << ")" << endl;
+  string first_eight_bit = result.substr(0, 8);
+  string after_eight_bit = result.substr(8, 8);
+  cout << "Result of multiply " << str1 << "(" << num1 << ") and " << str2 << " (" << num2 << ") is: " << result  << " (" << Binary_str_to_Dec(result) << "). ";
+  if(first_eight_bit == "00000000" || first_eight_bit == "11111111"){
+    if(flag == 0 && after_eight_bit[0] == '1'){
+      cout << "If the result in 8 bits, if will OVERFLOW!" << endl;
+    }
+  } else {
+    cout << "If the result in 8 bits, if will OVERFLOW!" << endl;
+  }
 }
 
 void divide(string str1, string str2){
