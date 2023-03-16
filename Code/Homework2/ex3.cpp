@@ -1,18 +1,65 @@
 // Câu 3) a)
-// Hàm trên chuyển đổi số thực dấu chấm động sang dạng nhị phân 32 bit chính xác đơn, tuy nhiên, nó chỉ đáp ứng chính xác cho số thực trong khoảng đặc biệt. Với số thực lớn như 1.3e+20 thì hàm trên không thể chuyển đổi chính xác.
-
-// Giá trị của số thực 1.3e+20 trong dạng nhị phân chính xác đôi là: 0 10001011 10011110010000001000100000000000000000000000000000000. Tuy nhiên, hàm trên chỉ chuyển đổi số thực sang dạng nhị phân chính xác đơn, có 1 bit dấu, 8 bit cho exponent và 23 bit cho significand. Do đó, với số thực 1.3e+20, hàm trên không thể chuyển đổi chính xác và kết quả trả về sẽ không chính xác.
+// Float 1.3e+20 convert to binary is:
+// Sign: 0
+// Exponent: 11000001
+// Mantissa: 11000011000001110011001
 
 // Cau 3) b)
-// Số float nhỏ nhất lớn hơn 0 là 1.4 x 10^(-45), hay được biểu diễn bằng IEEE-754 floating point format với single precision (32 bits) như sau:
-// Dấu: 0 (vì là số dương)
-// Exponent (8 bits): -126 (tương ứng với 2^(exponent-127) = 2^(-126))
-// Mantissa (23 bits): 0 (tất cả các bit đều là 0)
-// Tổng hợp lại, biểu diễn nhị phân của số float nhỏ nhất lớn hơn 0 là:
-// 0 00000001 00000000000000000000001
-// Trong đó, bit đầu tiên là bit dấu (0), 8 bit tiếp theo là phần mũ (exponent) và 23 bit cuối cùng là phần trị (mantissa).
+// Số float nhỏ nhất là 2^-126
+// Float 1.17549e-38 convert to binary is:
+// Sign: 0
+// Exponent: 00000001
+// Mantissa: 00000000000000000000000
 
 // Cau 3c)
+// Trong chuẩn IEEE 754 cho số dấu phẩy động, có một số giá trị đặc biệt được gọi là "giá trị đặc biệt". Các giá trị đặc biệt này bao gồm số không, vô cùng, NaN, và các giá trị số dấu phẩy động bình thường.
+
+// Nếu bit exponent (8 bit kế tiếp bit dấu) đều bằng 1 và toàn bộ bit mantissa (23 bit tiếp theo) đều bằng 0, thì đây là giá trị vô cùng (+infinity) hoặc âm vô cùng (-infinity), tùy thuộc vào bit dấu.
+
+// Nếu bit exponent đều bằng 1 và bit mantissa không đều bằng 0, thì đây là một giá trị NaN.
+
+// Vì vậy, trong hàm dumpFloat trên, để kiểm tra một số float có phải là vô cùng hay NaN, ta chỉ cần kiểm tra bit exponent và bit mantissa theo các quy tắc trên.
+
+// Nếu bit exponent đều bằng 1 và toàn bộ bit mantissa đều bằng 0, đó là số vô cùng.
+// Nếu bit exponent đều bằng 1 và bit mantissa không đều bằng 0, đó là số NaN.
+
+// Số vô cùng dương: float x = std::numeric_limits<float>::infinity();
+// Khi đưa số này vào hàm dumpFloat(&x) ta sẽ nhận được output tương tự như sau:
+
+// vbnet
+// Copy code
+// Float inf convert to binary is:
+// Sign: 0
+// Exponent: 11111111
+// Mantissa: 00000000000000000000000
+// ---------------------------------------
+// Số vô cùng âm: float x = -std::numeric_limits<float>::infinity();
+// Khi đưa số này vào hàm dumpFloat(&x) ta sẽ nhận được output tương tự như sau:
+
+// vbnet
+// Copy code
+// Float -inf convert to binary is:
+// Sign: 1
+// Exponent: 11111111
+// Mantissa: 00000000000000000000000
+// ---------------------------------------
+// Số NaN: float x = std::numeric_limits<float>::quiet_NaN();
+// Khi đưa số này vào hàm dumpFloat(&x) ta sẽ nhận được output tương tự như sau:
+
+// vbnet
+// Copy code
+// Float nan convert to binary is:
+// Sign: 0
+// Exponent: 11111111
+// Mantissa: 10000000000000000000000
+// ---------------------------------------
+// Lưu ý rằng giá trị mantissa của NaN không chỉ toàn bộ là 0 như với giá trị vô cùng. Thay vào đó, nó phải có ít nhất một bit là 1 để phân biệt với giá trị vô cùng. Trong ví dụ này, bit thứ 23 của mantissa là 1, do đó đó là một giá trị NaN hợp lệ.
+
+
+
+
+
+
 // Các trường hợp sau đây sẽ tạo ra các số đặc biệt (special floating-point values) khi thực hiện các phép tính với số dấu phẩy động kiểu float:
 
 // Số vô cùng (infinity): Nếu thực hiện phép chia mà mẫu (divisor) bằng 0 hoặc khi một số âm được chuyển đổi thành số dương vô cùng, thì kết quả của phép tính sẽ là số vô cùng. Ví dụ:
