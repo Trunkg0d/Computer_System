@@ -27,24 +27,22 @@ string dumpFloat(float *p) {
 }
 
 int main(){
-  float p = -12.625;
-  dumpFloat(&p);
-  float p1 = -5.25;
+  float p1 = 6;
   dumpFloat(&p1);
-  float p2 = -0.09375;
+  float p2 = -12.625;
   dumpFloat(&p2);
   float p3 = 0.1015625;
   dumpFloat(&p3);
   float p4 = 0.1;
   dumpFloat(&p4);
-  float p5 = 6;
+  float p5 = 0;
   dumpFloat(&p5);
-  float p6 = 0;
+
+
+  float p6 = 1.3E+20;
   dumpFloat(&p6);
-  float p7 = 1.3E+20;
+  float p7 = pow(2, -126);
   dumpFloat(&p7);
-  float p8 = pow(2, -126);
-  dumpFloat(&p8);
 
   float x = std::numeric_limits<float>::infinity();
   dumpFloat(&x);
