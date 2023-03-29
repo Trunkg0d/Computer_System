@@ -1,0 +1,245 @@
+#Viet ham nhap, xuat mang 1 chieu so nguyen
+.data
+	tb1: .asciiz "Nhap n: "
+	tb2: .asciiz "a["
+	tb3: .asciiz "]: "
+	tb4: .asciiz "Mang vua nhap la: "
+	tb5: .asciiz "\nTong mang la: "
+	n: .word 0
+	arr: .space 100
+
+.text
+	#truyen tham so
+	la $a0,arr
+	la $a1,n
+	#goi ham nhapmang
+	jal NhapMang
+
+	#Xuat tb4
+	li $v0,4
+	la $a0,tb4
+	syscall
+
+	#truyen tham so
+	la $a0, arr
+	lw $a1, n
+
+	#goi ham xuat mang
+	jal XuatMang
+	
+
+	#xuat tb5
+	li $v0,4
+	la $a0,tb5
+	syscall
+
+	#Truyen tham so
+	la $a0, arr
+	lw $a1, n
+	
+	#goi ham TinhTong
+	jal DQ_TinhTong
+
+	#Xuat ket qua tra ve
+	move $a0,$v0
+	li $v0,1
+	syscall
+
+
+
+	
+	#ket thuc
+	li $v0,10
+	syscall
+#===== Ham NhapMang =====
+#Dau thu tuc
+NhapMang:
+	#khai bao stack
+	addi $sp,$sp,-16
+	#backup thanh ghi
+	sw $ra,($sp)
+	sw $s0,4($sp)
+	sw $s1,8($sp)
+	sw $t0,12($sp)
+#Than thu tuc:
+	#Lay dia chi mang
+	move $s0,$a0
+	#xuat tb1
+	li $v0,4
+	la $a0,tb1
+	syscall
+	
+	#Nhap so nguyen 
+	li $v0,5
+	syscall
+
+	#Luu vao n
+	sw $v0,($a1)
+	
+	#Khoi tao vong lap
+	lw $s1,($a1) # s1 = n
+	li $t0,0 # i = 0
+NhapMang.Lap:
+	#xuat tb2
+	li $v0,4
+	la $a0,tb2
+	syscall
+
+	#xuat i
+	li $v0,1
+	move $a0,$t0
+	syscall
+
+	#Xuat tb3
+	li $v0,4
+	la $a0,tb3
+	syscall
+	
+	#nhap so nguyen 
+	li $v0,5
+	syscall
+
+	#Luu vao a[i]
+	sw $v0,($s0)
+
+	#Tang dia chi mang
+	addi $s0,$s0,4
+	#Tang i
+	addi $t0,$t0,1
+	#Kiem tra i < n
+	blt $t0,$s1,NhapMang.Lap
+
+#Cuoi thu tuc
+	#Restore thanh ghi
+	lw $ra,($sp)
+	lw $s0,4($sp)
+	lw $s1,8($sp)
+	lw $t0,12($sp)
+
+	#xoa stack
+	addi $sp,$sp,16
+	#Tra ve
+	jr $ra
+#====== Ham XuatMang =====
+XuatMang:
+	#Khai bao stack
+	addi $sp,$sp,-12
+	sw $ra,($sp)
+	sw $s0,4($sp)
+	sw $t0,8($sp)
+
+#Than thu tuc
+	#khoi tao vong lap
+	move $s0,$a0 # s0 = arr
+	li $t0,0 # i = 0
+XuatMang.Lap:
+	#xuat a[i]
+	li $v0,1
+	lw $a0,($s0)
+	syscall
+
+	#xuat khoang trang
+	li $v0,11
+	li $a0,' '
+	syscall
+
+	#Tang dia chi mang
+	addi $s0,$s0,4
+	#Tang i
+	addi $t0,$t0,1
+	#Kiem tra i < n
+	blt $t0,$a1,XuatMang.Lap
+
+#Cuoi thu tuc	
+	#restore thanh ghi
+	lw $ra,($sp)
+	lw $s0,4($sp)
+	lw $t0,8($sp)
+	#xoa stack
+	addi $sp,$sp,12
+	#tra ve
+	jr $ra
+
+#===== Ham TinhTong =======
+TinhTong:
+	#khai bao stack
+	addi $sp,$sp,-12
+	sw $ra,($sp)
+	sw $t0,4($sp)
+	sw $t1,8($sp)
+#Than thu tuc
+	li $v0,0 # s = 0
+	li $t0,0 # i = 0
+TinhTong.Lap:
+	#Load a[i] vao t1
+	lw $t1,($a0)
+	add $v0,$v0, $t1 # s = s + a[i]
+	#tang dia chi mang
+	addi $a0,$a0,4
+	#Tang i
+	addi $t0,$t0,1
+	#kiem tra i < n
+	blt $t0,$a1,TinhTong.Lap
+
+#cuoi thu tuc:
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1,8($sp)
+
+	#xoa stack
+	addi $sp,$sp,12
+	#tra ve
+	jr $ra
+
+# ==== TinhTong (De Qui) =======
+DQ_TinhTong:
+	#Khai bao stack
+	addi $sp,$sp,-12
+	#Backup thanh ghi
+	sw $ra,($sp)
+	sw $t0,4($sp)
+	sw $t1,8($sp)
+#Than thu tuc
+	beq $a1,0,TinhTong.Return0
+	j TinhTong.ReturnKQ
+
+
+TinhTong.Return0:
+	li $v0,0
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1,8($sp)
+
+	jr $ra
+TinhTong.ReturnKQ:
+	li $t0,4
+	mult $a1,$t0
+	mflo $t1
+	addi $t1,$t1,-4
+	
+	#backup $a0
+	move $t2,$a0
+	add $a0,$a0,$t1
+	lw $t0,($a0) #t0 = a[n-1]
+	
+	#Truyen tham so
+	move $a0,$t2
+	addi $a1,$a1,-1
+	
+	#Goi ham
+	jal DQ_TinhTong
+	
+	#Lay ket qua tra ve + a[n-1]
+	add $v0,$v0,$t0
+	#Restore thanh ghi
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1,8($sp)
+	#xoa stack
+	addi $sp,$sp,12
+	#tra ve
+	jr $ra
+
+	
+
+	

@@ -1,0 +1,53 @@
+#Nhap n, kiem tra n la so nguyen to khong
+.data
+	tb1: .asciiz "nhap n: "
+	tb2: .asciiz "la nguyen to"
+	tb3: .asciiz "khong la nguyen to"
+
+.text
+	#xuat tb1
+	li $v0,4
+	la $a0,tb1
+	syscall
+
+	#nhap n
+	li $v0,5
+	syscall
+
+	#luu vao s0
+	move $s0,$v0
+
+	#khoi tao dem = 0
+	li $s1,0
+	
+	#Khoi tao i = 1
+	li $t0,1
+Lap:
+	div $s0,$t0
+	mfhi $t1
+	beq $t1,0,TangDem
+	j Tangi
+TangDem:
+	addi $s1,$s1,1
+Tangi:
+	addi $t0,$t0,1
+
+	#kiem tra i <= n -> n >=i
+	slt $t2,$s0,$t0
+	beq $t2,0,Lap
+
+	#Kiem tra dem = 2
+	beq $s1,2,LaNT
+	#Nguoc lai koLaNT
+	li $v0,4
+	la $a0,tb3
+	syscall
+
+	j KetThuc
+LaNT:
+	li $v0,4
+	la $a0,tb2
+	syscall
+
+KetThuc:
+	

@@ -1,0 +1,67 @@
+#Nhap vao 1 ky tu, 
+#cho biet loai ky tu: so, chu thuong, chu hoa
+.data
+	tb1: .asciiz "Nhap ki tu: "
+	tb2: .asciiz "\nla so"
+	tb3: .asciiz "\nla chu thuong"
+	tb4: .asciiz "\nla chu HOA"
+.text
+	#xuat tb1
+	li $v0,4
+	la $a0,tb1
+	syscall
+
+	#Nhap ki tu
+	li $v0,12
+	syscall
+	
+	#Luu ki tu vao $s0
+	move $s0,$v0
+	
+	#Kiem tra la so
+	slti $t0,$s0,'0'
+	beq $t0,0,lonbang0
+	j KetThuc
+	
+
+lonbang0:	
+	li $t1,'9'
+	slt $t0,$t1,$s0
+	beq $t0,0,nhobang9
+	j KTHoa
+nhobang9:
+	li $v0,4
+	la $a0,tb2
+	syscall
+
+	j KetThuc
+
+KTHoa:
+	slti $t0,$s0,'A'
+	beq $t0,0,lonbangA
+	j KetThuc
+
+lonbangA:
+	li $t1,'Z'
+	slt $t0,$t1,$s0
+	beq $t0,0,nhobangZ
+	j KTThuong
+nhobangZ:
+	li $v0,4
+	la $a0,tb4
+	syscall
+	j KetThuc
+KTThuong:
+	slti $t0,$s0,'a'
+	beq $t0,0,lonbanga
+	j KetThuc
+lonbanga:
+	li $t1,'z'
+	slt $t0,$t1,$s0
+	beq $t0,0,nhobangz
+	j KetThuc
+nhobangz:
+	li $v0,4
+	la $a0,tb3
+	syscall
+KetThuc:	

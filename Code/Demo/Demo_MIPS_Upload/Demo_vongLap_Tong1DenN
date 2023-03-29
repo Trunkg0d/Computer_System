@@ -1,0 +1,42 @@
+#Nhap n, tinh tong 1 den n
+.data
+	tb1: .asciiz "nhap n: "
+	tb2: .asciiz "tong 1 den n la: "
+.text
+	#xuat tb1
+	li $v0,4
+	la $a0,tb1
+	syscall
+
+	#Nhap n
+	li $v0,5
+	syscall
+
+	#Luu vao s0
+	move $s0,$v0
+
+	#khoi tao s = 0
+	li $s1,0
+	
+	#khoi tao i = 1
+	li $t0,1
+Lap:
+	add $s1,$s1,$t0 #s = s + i
+	addi $t0,$t0,1	 #i = i + 1
+
+	#Kiem tra n >= i (i <=n) thi Lap
+	slt $t1,$s0,$t0
+	beq $t1,0,Lap
+
+	#xuat tb2
+	li $v0,4
+	la $a0,tb2
+	syscall
+	
+	#Xuat s1
+	li $v0,1
+	move $a0,$s1
+	syscall
+
+
+	
