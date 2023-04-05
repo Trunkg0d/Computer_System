@@ -2,7 +2,7 @@
 extern _getch
 section .data
     tb1 db "Nhap a: ",0
-    tb2 db... "Nhap b: ",0
+    tb2 db "Nhap b: ",0
     tb3 db "%d %c %d = %d",0
     fmt db "%d",0  
 section .bss
